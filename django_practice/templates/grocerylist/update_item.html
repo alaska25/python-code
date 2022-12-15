@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Item{% endblock %}
+
+{% block content%}
+	{% if user.is_anonymous == False%}
+		<div class="container">
+			<div class="row">
+				<div class="col-6 offset-3">
+					<h1 class="text-center my-3">Update Item</h1>
+					{% if error == True %}
+						<p class="text-danger">Item not found</p>
+					{% endif %}
+					<form action="{% url 'grocerylist:update_item' groceryitem_id %}" method="post">
+						{% csrf_token %}
+
+						<div class="mb-3">
+						    <label for="item_name">Item Name: </label>
+						    <input class="form-control" id="item_name" type="text" name="item_name" value="{{ item_name }}" maxlength="50" required>
+						</div>
+
+						<div class="mb-3">
+						    <label for="category">Category: </label>
+						    <textarea class="form-control" name="category" required>{{ category }}</textarea>
+						</div>
+
+						<div class="mb-3">
+						    <label for="status">Status: </label>
+						    <input class="form-control" id="status" type="text" name="status" value="{{ status }}" maxlength="50" required>
+						</div>
+
+						<div class="text-center">
+					    	<input class="btn btn-success" type="submit" value="Update Item">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<h1 class="text-center my-3">You are not authorized to access this page.</h1>
+		<p class="text-center">Kindly login <a href="{% url 'grocerylist:login' %}">here</a></p>
+	{% endif %}
+{% endblock%}
